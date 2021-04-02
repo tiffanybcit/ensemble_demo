@@ -1,0 +1,29 @@
+{
+  "name": "database",
+  "version": "1.0.0",
+  "description": "Used Heroku, nodejs, express, ejs, AJAX, MongoDB",
+  "main": "app.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "intuit-oauth": "^3.0.2",
+    "mongodb": "^3.6.4",
+    "nodemon": "^2.0.7",
+    "serve-favicon": "^2.5.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yiwen950725/nemesis_project_backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yiwen950725/nemesis_project_backend/issues"
+  },
+  "homepage": "https://github.com/yiwen950725/nemesis_project_backend#readme"
+}

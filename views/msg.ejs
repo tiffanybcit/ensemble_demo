@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/resources/static/img/favicon-32x32.png" type="image/gif" sizes="32x32">
+    <title>Listener</title>
+    <style>
+       body{
+            background-color: #f9fbf2;
+            color:#0e1c36;
+        }
+        #formgroup{
+            margin-right: 5em;
+            margin-left: 5em;
+            margin-top: 2em;
+            
+        }
+        .buttonstyle {
+            display: inline-block;
+            padding: 0.3em 1em;
+            text-decoration: none;
+            color: #0e1c36;
+            border: solid 2px #0e1c36;
+            border-radius: 3px;
+            transition: .4s;
+            background: white;
+        }
+
+        .buttonstyle:hover {
+            background: #0e1c36;
+            color: white;
+        }
+        
+     
+
+    </style>
+</head>
+<body>
+
+<div id='whole'>
+    <h1>All messages</h1>
+    <div id='form'>
+  <form>
+    
+      
+      <p>
+        <% for (var i = 0; i < pass.length;  i++ ) { %>
+            
+           
+                <fieldset>
+                 
+              <span><%= pass[i] %></span>
+             
+              <br>
+              <div class="box"></div>
+            </fieldset>
+           
+           
+          <%  console.log(pass[i])} %>
+    
+          <% var test = pass.length; %>
+
+      </p> 
+
+  
+  </form>
+  <form action="./">
+    <button id="proceed" class="buttonstyle">Back to Home</button>
+  </form> 
+</div>
+  <div id="buttons"></div>
+</div>
+<script>
+// let length = <%= test %>;
+
+// for (var i=0; i < length ; i++){
+//      let elem = document.createElement('input');
+//     //  let elem2 = document.createElement('fieldset');
+//      var elem1 = document.getElementById("buttons");
+//      elem.type = 'button';
+//      elem.value = 'button';
+     
+//      elem1.appendChild(elem);
+//      elem1.appendChild(document.createElement("br"));
+//      elem1.appendChild(document.createElement("br"));
+     
+// }
+
+
+
+
+</script>
+</body>
+</html>
