@@ -287,14 +287,14 @@ app.post("/writeMonthlySalesData", (req, res) => {
         useUnifiedTopology: true
     }, function (err, db) {
         if (err) throw err;
-        var dbo = db.db("sales_demo");
+        var dbo = db.db("nemesis_project");
 
         // this option prevents additional documents from being inserted if one fails
         const options = {
             ordered: true
         };
         for (let item of req.body.rowobj) {
-            dbo.collection("nemesis_project").insertOne({
+            dbo.collection("sales_demo").insertOne({
 
                 "shop": req.body.store,
                 "year": req.body.year,
