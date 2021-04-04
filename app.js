@@ -132,6 +132,7 @@ app.get("/readMsg", (req, res) => {
                     let title = [];
                     let body = [];
                     let collectionID = [];
+                    let statuses = [];
                     let i;
                     for (i = 0; i < result.length; i++) {
                         title.push(result[i].title);
@@ -143,6 +144,7 @@ app.get("/readMsg", (req, res) => {
                         title: title,
                         msg: body,
                         idCollection: collectionID,
+                        status: statuses,
                         length: i
                     });
 
@@ -411,7 +413,8 @@ app.post("/writeMsg", (req, res) => {
                 .insertOne({
                         title: req.body.msgSubject,
                         msg: req.body.msgBody,
-                        ID: req.body.largestID
+                        ID: req.body.largestID,
+                        done:req.body.doneBool
                     },
                     options
                 )
