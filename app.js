@@ -99,6 +99,36 @@ app.use('/login', (req, res) => {
     });
   });
 
+  app.get("/readMsg", (req, res) => {
+    res.setHeader('Content-Type', 'text/html');
+    MongoClient.connect(mongoURI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    }, function (err, db) {
+        if (err) throw err;
+        var dbo = db.db("nemesis_project");
+        dbo.collection("msg").find({}).toArray(function (err, result) {
+            let title = [];
+            let body = [];
+
+            for (let i = 0; i < result.length; i++) {
+                title.push(result[i].title);
+                body.push(result[i].msg);
+                
+            }
+            if (err) throw err;
+            res.send({
+                "title": title,
+                "msg": msg
+            });
+
+            db.close();
+
+
+        });
+    });
+}
+);
 
 app.get("/readSalesData", (req, res) => {
     res.setHeader('Content-Type', 'text/html');
@@ -340,8 +370,8 @@ app.post("/writeMsg", (req, res) => {
         for (let item of req.body) {
             dbo.collection("msg").insertOne({
 
-                "title": req.body.msgSubject,
-                "msg": req.body.msgBody
+                "title": item.msgSubject,
+                "msg": item.body.msgBody
 
             }, options).catch(err => {
                 console.error(`Fatal error occurred: ${err}`);
