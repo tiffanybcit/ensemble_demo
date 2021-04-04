@@ -408,7 +408,7 @@ app.post("/writeMsg", (req, res) => {
                 .insertOne({
                         title: req.body.msgSubject,
                         msg: req.body.msgBody,
-                        ID: req.body.ID
+                        ID: req.body.largestID
                     },
                     options
                 )
