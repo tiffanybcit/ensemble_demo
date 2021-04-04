@@ -415,7 +415,7 @@ app.post("/writeMsg", (req, res) => {
                         title: req.body.msgSubject,
                         msg: req.body.msgBody,
                         ID: req.body.largestID,
-                        status:req.body.doneBool
+                        status:req.body.status
                     },
                     options
                 )
