@@ -107,12 +107,11 @@ app.get("/", (req, res) => res.sendFile(__dirname + "/views/index.html"));
 //     res.send(doc);
 // });
 
-app.use("/login", (req, res) => {
+app.use('/login', (req, res) => {
     res.send({
-        username: "test123",
-        password: "123456",
+      token: 'qwerty123456'
     });
-});
+  });
 
 app.get("/readTask", (req, res) => {
     res.setHeader("Content-Type", "text/html");
