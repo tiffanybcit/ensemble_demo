@@ -142,7 +142,7 @@ app.get("/readMsg", (req, res) => {
                     res.send({
                         title: title,
                         msg: body,
-                        idCollection: collectionID, 
+                        idCollection: collectionID,
                         length: i
                     });
 
@@ -472,6 +472,42 @@ app.post("/writeMsg", (req, res) => {
 
 
 // })
+
+app.delete('/deleteMsg', (req, res) => {
+    console.log(req.body);
+    res.setHeader("Content-Type", "application/json");
+    res.header("Access-Control-Allow-Origin", "*");
+
+    MongoClient.connect(
+        mongoURI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        },
+        function (err, db) {
+            if (err) throw err;
+            var dbo = db.db("nemesis_project");
+
+            // this option prevents additional documents from being inserted if one fails
+            const options = {
+                ordered: true,
+            };
+            dbo
+                .collection("msg").deleteOne({
+                        ID: req.body.selectedID
+                    },
+                    options
+                ).catch((err) => {
+                    console.error(`Fatal error occurred: ${err}`);
+                    res.send("Doc error. Not inserted!");
+                });
+
+            res.send({
+                msg: "success",
+            });
+        }
+    );
+});
+
 const port = process.env.PORT || 8000;
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
