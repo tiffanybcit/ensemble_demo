@@ -66,7 +66,7 @@ app.use(cors());
 // EXPRESS TRIGGER
 // ===================
 
-// app.get('/', (req, res) => res.sendFile(__dirname + '/views/index.html'));
+app.get('/', (req, res) => res.sendFile(__dirname + '/views/index.html'));
 
 // app.get('/laborSales', function (req, res) {
 //     let doc = fs.readFileSync('./views/labor_sales.html', "utf8");
@@ -337,7 +337,7 @@ app.post("/writeMsg", (req, res) => {
         const options = {
             ordered: true
         };
-        for (let item of req.body.rowobj) {
+        for (let item of req.body) {
             dbo.collection("msg").insertOne({
 
                 "title": req.body.msgSubject,
