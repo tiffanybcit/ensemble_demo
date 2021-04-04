@@ -66,31 +66,31 @@ app.use(cors());
 // EXPRESS TRIGGER
 // ===================
 
-app.get('/', (req, res) => res.sendFile(__dirname + '/views/index.html'));
+// app.get('/', (req, res) => res.sendFile(__dirname + '/views/index.html'));
 
-app.get('/laborSales', function (req, res) {
-    let doc = fs.readFileSync('./views/labor_sales.html', "utf8");
+// app.get('/laborSales', function (req, res) {
+//     let doc = fs.readFileSync('./views/labor_sales.html', "utf8");
 
-    res.send(doc);
-});
+//     res.send(doc);
+// });
 
-app.get('/piegraph', function (req, res) {
-    let doc = fs.readFileSync('./views/PieChart.html', "utf8");
+// app.get('/piegraph', function (req, res) {
+//     let doc = fs.readFileSync('./views/PieChart.html', "utf8");
 
-    res.send(doc);
-});
+//     res.send(doc);
+// });
 
-app.get('/bargraph', function (req, res) {
-    let doc = fs.readFileSync('./views/BarCharts.html', "utf8");
+// app.get('/bargraph', function (req, res) {
+//     let doc = fs.readFileSync('./views/BarCharts.html', "utf8");
 
-    res.send(doc);
-});
+//     res.send(doc);
+// });
 
-app.get('/success', function (req, res) {
-    let doc = fs.readFileSync('./views/submitted.html', "utf8");
+// app.get('/success', function (req, res) {
+//     let doc = fs.readFileSync('./views/submitted.html', "utf8");
 
-    res.send(doc);
-});
+//     res.send(doc);
+// });
 
 
 app.use('/login', (req, res) => {
@@ -303,6 +303,45 @@ app.post("/writeMonthlySalesData", (req, res) => {
                 "category": item.Category,
                 "net": item["Net Sales"],
                 "gross": item["Gross Sales"]
+
+            }, options).catch(err => {
+                console.error(`Fatal error occurred: ${err}`);
+                res.send("Doc error. Not inserted!");
+            });
+
+        }
+
+        res.send({
+            "msg": "success"
+        });
+    });
+
+});
+
+
+// //update info to the main list
+app.post("/writeMsg", (req, res) => {
+
+    console.log("req.body" + JSON.stringify(req.body));
+
+    res.setHeader('Content-Type', 'application/json');
+
+    MongoClient.connect(mongoURI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    }, function (err, db) {
+        if (err) throw err;
+        var dbo = db.db("nemesis_project");
+
+        // this option prevents additional documents from being inserted if one fails
+        const options = {
+            ordered: true
+        };
+        for (let item of req.body.rowobj) {
+            dbo.collection("msg").insertOne({
+
+                "title": req.body.msgSubject,
+                "msg": req.body.msgBody
 
             }, options).catch(err => {
                 console.error(`Fatal error occurred: ${err}`);
