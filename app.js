@@ -138,6 +138,7 @@ app.get("/readMsg", (req, res) => {
                         title.push(result[i].title);
                         body.push(result[i].msg);
                         collectionID.push(result[i].ID);
+                        statuses.push(result[i].status);
                     }
                     if (err) throw err;
                     res.send({
@@ -414,7 +415,7 @@ app.post("/writeMsg", (req, res) => {
                         title: req.body.msgSubject,
                         msg: req.body.msgBody,
                         ID: req.body.largestID,
-                        done:req.body.doneBool
+                        status:req.body.doneBool
                     },
                     options
                 )
