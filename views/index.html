@@ -2,14 +2,12 @@
 <html lang="en">
 
 <head>
-    <title>Upload Portal</title>
+    <title>Backend</title>
     <!-- <link rel="icon" href="./favicon-32x32.png"> -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 
     <style>
         body {
@@ -51,183 +49,12 @@
 
 <body>
 
-    <h1 style="text-align: center;">Welcome!</h1>
-
-    <label for="category">Choose a document to upload:</label>
-    <select name="item1" id="category" onchange="test()">
-        <option value="Sqaure">Square Category of Sales</option>
-        <option value="RISE">RISE LABOR</option>
-
-
-    </select>
-
-    <label for="store" id="storeLabel">Choose a store:</label>
-    <select name="item2" id="store">
-
-        <option value="Polygon">Polygon</option>
-        <option value="Gastown">Gastown</option>
-        <option value="gnw">GNW</option>
-        <option value="4">4 placeholder</option>
-        <option value="5">5 placeholder</option>
-    </select>
-
-    <label for="year">Choose a year:</label>
-    <input type="number" id="year">
-    <br>
-    <label for="month">Choose a month:</label>
-    <select name="item3" id="month">
-
-        <option value="1">January</option>
-        <option value="2">February</option>
-        <option value="3">March</option>
-        <option value="4">April</option>
-        <option value="5">May</option>
-        <option value="6">June</option>
-        <option value="7">July</option>
-        <option value="8">August</option>
-        <option value="9">September</option>
-        <option value="10">October</option>
-        <option value="11">November</option>
-        <option value="12">December</option>
-    </select>
-
-    <div class="row">
-
-        <div class="col-md-3">
-            <input class="form-control" type="file" id="input" accept=".xls,.xlsx">
-            <button id="button">Upload</button>
-
-        </div>
-    </div>
-    <script>
-        function test() {
-            let kind = document.getElementById("category");
-            let kind2 = kind.options[kind.selectedIndex].text;
-            console.log(kind.options[kind.selectedIndex].text);
-            console.log(kind2.localeCompare("RISE LABOR"));
-
-            if (kind2.localeCompare("RISE LABOR") == 0) {
-                document.getElementById("store").style.visibility = "hidden";
-                document.getElementById("storeLabel").style.visibility = "hidden";
-
-            } else {
-                document.getElementById("store").style.visibility = "visible";
-                document.getElementById("storeLabel").style.visibility = "visible";
-            }
-        }
-    </script>
+    <h1>This is the backend for the demo!</h1>
+   
 
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
-
-    <script>
-        document.getElementById("year").placeholder = "Type year here..";
-        let selectedFile;
-        console.log(window.XLSX);
-        document.getElementById('input').addEventListener("change", (event) => {
-            selectedFile = event.target.files[0];
-        })
-
-        let data = [{
-            "name": "jayanth",
-            "data": "scd",
-            "abc": "sdef"
-        }]
-
-        let a = document.getElementById("category");
-        let category = a.options[a.selectedIndex].text;
-
-
-        document.getElementById('button').addEventListener("click", () => {
-            XLSX.utils.json_to_sheet(data, 'out.xlsx');
-            if (selectedFile) {
-                let fileReader = new FileReader();
-                fileReader.readAsBinaryString(selectedFile);
-                fileReader.onload = (event) => {
-                    let data = event.target.result;
-                    let workbook = XLSX.read(data, {
-                        type: "binary"
-                    });
-
-
-                    workbook.SheetNames.forEach(sheet => {
-                        let rowObject = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[
-                            sheet]);
-
-                        let a = document.getElementById("category");
-                        let category = a.options[a.selectedIndex].text;
-                        console.log(category);
-
-                        let b = document.getElementById("store");
-                        let store = b.options[b.selectedIndex].text;
-                        console.log(store);
-
-                        let c = document.getElementById("year");
-                        let year = c.value;
-                        console.log(year);
-
-                        let d = document.getElementById("month");
-
-                        let month = d.options[d.selectedIndex].value;
-
-                        if (year > 2010 && year < 2040) {
-                            if (category.localeCompare("RISE LABOR") == 0) {
-                                // alert("hello");
-                                console.log(rowObject);
-                                $.ajax({
-                                    url: "/writeLaborCost",
-                                    type: "POST",
-                                    dataType: 'json',
-                                    data: {
-                                        "year": year,
-                                        "month": month,
-                                        "rowobj": rowObject
-                                    },
-                                    success: function (data) {
-                                        console.log(data);
-                                        window.location.href = "/success";
-                                    },
-                                    error: function (request, status, error) {
-                                        alert(request.responseText);
-                                        console.log(error);
-                                    }
-                                });
-
-
-                            } else {
-                                $.ajax({
-                                    url: "/writeMonthlySalesData",
-                                    type: "POST",
-                                    dataType: 'json',
-                                    data: {
-                                        "store": store,
-                                        "year": year,
-                                        "month": month,
-                                        "rowobj": rowObject
-                                    },
-                                    success: function (data) {
-                                        console.log(data);
-                                        window.location.href = "/success";
-                                    },
-                                    error: function (request, status, error) {
-                                        alert(request.responseText);
-                                        console.log(error);
-                                    }
-                                });
-                            }
-
-                        } else {
-                            alert("Make sure year input is right!");
-                        }
-
-
-                    });
-                }
-            }
-        });
-    </script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    
 </body>
 
 </html>
