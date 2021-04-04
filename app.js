@@ -116,7 +116,7 @@ app.use("/login", (req, res) => {
 
 app.get("/readMsg", (req, res) => {
     res.setHeader("Content-Type", "text/html");
-    res.header("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Origin", "*");
     MongoClient.connect(
         mongoURI, {
             useNewUrlParser: true,
@@ -152,7 +152,7 @@ app.get("/readMsg", (req, res) => {
 
 app.get("/readSalesData", (req, res) => {
     res.setHeader("Content-Type", "text/html");
-    res.header("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Origin", "*");
     MongoClient.connect(
         mongoURI, {
             useNewUrlParser: true,
@@ -204,7 +204,7 @@ let result2;
 
 app.get("/readLaborAndSales", (req, res) => {
     res.setHeader("Content-Type", "text/html");
-    res.header("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Origin", "*");
 
     MongoClient.connect(
         mongoURI, {
@@ -270,7 +270,7 @@ app.post("/writeLaborCost", (req, res) => {
         return total;
     }
     res.setHeader("Content-Type", "application/json");
-    res.header("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Origin", "*");
     MongoClient.connect(
         mongoURI, {
             useNewUrlParser: true,
@@ -342,7 +342,7 @@ app.post("/writeMonthlySalesData", (req, res) => {
         return null;
     }
     res.setHeader("Content-Type", "application/json");
-    res.header("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Origin", "*");
     MongoClient.connect(
         mongoURI, {
             useNewUrlParser: true,
@@ -388,7 +388,7 @@ app.post("/writeMsg", (req, res) => {
     console.log("req.body" + JSON.stringify(req.body));
 
     res.setHeader("Content-Type", "application/json");
-    res.header("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Origin", "*");
 
     MongoClient.connect(
         mongoURI, {
