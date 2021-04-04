@@ -451,16 +451,11 @@ app.put('/updateTask', (req, res) => {
             const options = {
                 ordered: true,
             };
-
+            var myquery = { ID: req.body.selectedID };
+            var newvalues = { $set: { status: req.body.newStatus } };
             dbo
                 .collection("msg")
-                .updateOne({
-                        ID: req.body.selectedID
-                    }, {
-                        $set: {
-                            status:req.body.newStatus
-                        }
-                    },
+                .updateOne(myquery, newvalues,
                     options
                 )
                 .then(result => {
