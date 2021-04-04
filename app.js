@@ -119,7 +119,7 @@ app.use('/login', (req, res) => {
             if (err) throw err;
             res.send({
                 "title": title,
-                "msg": msg
+                "msg": body
             });
 
             db.close();
