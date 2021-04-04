@@ -60,7 +60,7 @@ const {
 // ===================
 var cors = require('cors');
 app.use(cors());
-// app.options('*', cors());
+app.options('*', cors());
 
 // ===================
 // EXPRESS TRIGGER
