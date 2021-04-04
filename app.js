@@ -141,7 +141,7 @@ app.get("/readMsg", (req, res) => {
                         title: title,
                         msg: body,
                         length: i,
-                        lastID: result[i-1].ID
+                        lastID: 0
                     });
 
                     db.close();
