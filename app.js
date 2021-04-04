@@ -23,17 +23,11 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-// ===================
-// CORS
-// ===================
-
 app.use(express.urlencoded({
     extended: true
 }))
 app.use(express.json());
 
-const cors = require('cors');
-app.use(cors());
 
 // ===================
 // MONGO DB
@@ -57,12 +51,7 @@ const {
 // ===================
 var cors = require('cors');
 app.use(cors());
-app.options('*', cors());
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
+
 
 // ===================
 // EXPRESS TRIGGER
