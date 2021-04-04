@@ -114,7 +114,7 @@ app.use("/login", (req, res) => {
     });
 });
 
-app.get("/readMsg", (req, res) => {
+app.get("/readTask", (req, res) => {
     res.setHeader("Content-Type", "text/html");
     res.setHeader("Access-Control-Allow-Origin", "*");
     MongoClient.connect(
@@ -389,7 +389,7 @@ app.post("/writeMonthlySalesData", (req, res) => {
 });
 
 // //update info to the main list
-app.post("/writeMsg", (req, res) => {
+app.post("/writeTask", (req, res) => {
     console.log("req.body" + JSON.stringify(req.body));
 
     res.setHeader("Content-Type", "application/json");
@@ -432,52 +432,51 @@ app.post("/writeMsg", (req, res) => {
 });
 
 
-// app.put('/updateTask', (req, res) => {
-//     console.log(req.body);
-//     res.setHeader("Content-Type", "application/json");
-//     res.header("Access-Control-Allow-Origin", "*");
+app.put('/updateTask', (req, res) => {
+    console.log(req.body);
+    res.setHeader("Content-Type", "application/json");
+    res.header("Access-Control-Allow-Origin", "*");
 
-//     MongoClient.connect(
-//         mongoURI, {
-//             useNewUrlParser: true,
-//             useUnifiedTopology: true,
-//         },
-//         function (err, db) {
-//             if (err) throw err;
-//             var dbo = db.db("nemesis_project");
+    MongoClient.connect(
+        mongoURI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        },
+        function (err, db) {
+            if (err) throw err;
+            var dbo = db.db("nemesis_project");
 
-//             // this option prevents additional documents from being inserted if one fails
-//             const options = {
-//                 ordered: true,
-//             };
+            // this option prevents additional documents from being inserted if one fails
+            const options = {
+                ordered: true,
+            };
 
-//             dbo
-//                 .collection("msg")
-//                 .findOneAndUpdate({
-//                         ID: 'Yoda'
-//                     }, {
-//                         $set: {
-//                             name: req.body.name,
-//                             quote: req.body.quote
-//                         }
-//                     },
-//                     options
-//                 )
-//                 .then(result => {
-//                     /* ... */ })
-//                 .catch(error => console.error(error));
+            dbo
+                .collection("msg")
+                .findOneAndUpdate({
+                        ID: req.body.selectedID
+                    }, {
+                        $set: {
+                            status:req.body.newStatus
+                        }
+                    },
+                    options
+                )
+                .then(result => {
+                    /* ... */ })
+                .catch(error => console.error(error));
 
-//             res.send({
-//                 msg: "success",
-//             });
-//         }
-//     );
-
+            res.send({
+                msg: "success",
+            });
+        }
+    );
 
 
-// })
 
-app.delete('/deleteMsg', (req, res) => {
+})
+
+app.delete('/deleteTask', (req, res) => {
     console.log(req.body);
     res.setHeader("Content-Type", "application/json");
     res.header("Access-Control-Allow-Origin", "*");
