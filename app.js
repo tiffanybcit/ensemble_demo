@@ -433,6 +433,7 @@ app.post("/writeTask", (req, res) => {
 
 
 app.put('/updateTask', (req, res) => {
+    console.log(req.body.ID);
     console.log(req.body.newStatus);
     res.setHeader("Content-Type", "application/json");
     res.header("Access-Control-Allow-Origin", "*");
@@ -453,7 +454,7 @@ app.put('/updateTask', (req, res) => {
 
             dbo
                 .collection("msg")
-                .findOneAndUpdate({
+                .updateOne({
                         ID: req.body.selectedID
                     }, {
                         $set: {
