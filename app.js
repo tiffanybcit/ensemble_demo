@@ -491,14 +491,15 @@ app.delete('/deleteMsg', (req, res) => {
             const options = {
                 ordered: true,
             };
-            var msgQuery = { ID: req.body.selectedID };
+            var msgQuery = req.body;
             dbo
                 .collection("msg").deleteOne(msgQuery,
                     options
-                ).catch((err) => {
-                    console.error(`Fatal error occurred: ${err}`);
-                    res.send("Doc error. Not inserted!");
-                });
+                ).then(result => {
+                    res.json(`Deleted Darth Vadar's quote`);
+                    console.log("Deleted!");
+                  })
+                  .catch(error => console.error(error));
 
             res.send({
                 msg: "success",
