@@ -364,6 +364,7 @@ app.post("/writeMsg", (req, res) => {
     console.log("req.body" + JSON.stringify(req.body));
 
     res.setHeader('Content-Type', 'application/json');
+    res.header("Access-Control-Allow-Origin", "*");
 
     MongoClient.connect(mongoURI, {
         useNewUrlParser: true,
