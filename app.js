@@ -33,7 +33,6 @@ app.use(express.json());
 // ===================
 // MONGO DB
 // ===================
-
 const MongoClient = require("mongodb").MongoClient;
 const mongoURI =
     "mongodb+srv://admin:qwerty123456@nemesistest.k4jez.mongodb.net/test";
@@ -41,7 +40,6 @@ const mongoURI =
 // ===================
 // FS AND EJS
 // ===================
-
 var fs = require("fs");
 const {
     render
@@ -52,43 +50,30 @@ const {
 // ===================
 var cors = require("cors");
 app.use(cors());
-// Add headers
-// app.use(function (req, res, next) {
-//     // Website you wish to allow to connect
-//     res.setHeader("Access-Control-Allow-Origin", "*");
 
-//     // Request methods you wish to allow
-//     res.setHeader(
-//         "Access-Control-Allow-Methods",
-//         "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-//     );
-
-//     // Request headers you wish to allow
-//     res.setHeader(
-//         "Access-Control-Allow-Headers",
-//         "X-Requested-With,content-type"
-//     );
-
-//     // Set to true if you need the website to include cookies in the requests sent
-//     // to the API (e.g. in case you use sessions)
-//     res.setHeader("Access-Control-Allow-Credentials", true);
-
-//     // Pass to next layer of middleware
-//     next();
-// });
 
 // ===================
 // EXPRESS TRIGGER
 // ===================
 
+// ===================
+// RENDERS PAGE
+// ===================
 app.get("/", (req, res) => res.sendFile(__dirname + "/views/index.html"));
 
+
+// ===================
+// LOGIN TOKEN
+// ===================
 app.use("/login", (req, res) => {
     res.send({
         token: "qwerty123456",
     });
 });
 
+// ===================
+// READ TASK API
+// ===================
 app.get("/readTask", (req, res) => {
     res.setHeader("Content-Type", "text/html");
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -130,6 +115,9 @@ app.get("/readTask", (req, res) => {
     );
 });
 
+// =====================
+// READ SALES DATA API
+// =====================
 app.get("/readSalesData", (req, res) => {
     res.setHeader("Content-Type", "text/html");
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -179,6 +167,9 @@ app.get("/readSalesData", (req, res) => {
     );
 });
 
+// =======================================
+// READ LABOR AND SALES DATA TOGETHER API
+// =======================================
 let result1;
 let result2;
 
@@ -232,7 +223,9 @@ app.get("/readLaborAndSales", (req, res) => {
     });
 });
 
-// this api posts data to the database
+// ==========================
+// WRITE TO DB LABOR COST API
+// ==========================
 app.post("/writeLaborCost", (req, res) => {
     console.log("req.body" + JSON.stringify(req.body));
 
@@ -287,7 +280,9 @@ app.post("/writeLaborCost", (req, res) => {
     );
 });
 
-// //update info to the main list
+// ======================
+// UPLOAD SALES DATA API
+// ======================
 app.post("/writeMonthlySalesData", (req, res) => {
     console.log("req.body" + JSON.stringify(req.body));
 
@@ -361,7 +356,9 @@ app.post("/writeMonthlySalesData", (req, res) => {
     );
 });
 
-// //update info to the main list
+// ===================
+// ADD TASK API
+// ===================
 app.post("/writeTask", (req, res) => {
     console.log("req.body" + JSON.stringify(req.body));
 
@@ -404,6 +401,9 @@ app.post("/writeTask", (req, res) => {
     );
 });
 
+// ===================
+// UPDATE TASK API
+// ===================
 app.put("/updateTask", (req, res) => {
     console.log(typeof req.body.selectedID);
     console.log(req.body.newStatus);
@@ -443,6 +443,9 @@ app.put("/updateTask", (req, res) => {
     );
 });
 
+// ===================
+// DELETE TASK API
+// ===================
 app.delete("/deleteTask", (req, res) => {
     console.log(req.body);
     res.setHeader("Content-Type", "application/json");
