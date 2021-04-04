@@ -408,8 +408,8 @@ app.post("/writeMsg", (req, res) => {
         .collection("msg")
         .insertOne(
           {
-            title: item.msgSubject,
-            msg: item.body.msgBody,
+            title: req.body.msgSubject,
+            msg: req.body.msgBody,
           },
           options
         )
