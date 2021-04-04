@@ -433,7 +433,7 @@ app.post("/writeTask", (req, res) => {
 
 
 app.put('/updateTask', (req, res) => {
-    console.log(req.body.selectedID);
+    console.log(typeof(req.body.selectedID));
     console.log(req.body.newStatus);
     res.setHeader("Content-Type", "application/json");
     res.header("Access-Control-Allow-Origin", "*");
@@ -451,7 +451,7 @@ app.put('/updateTask', (req, res) => {
             const options = {
                 ordered: true,
             };
-            var myquery = { ID: req.body.selectedID };
+            var myquery = { ID: parseInt(req.body.selectedID) };
             var newvalues = { $set: { status: req.body.newStatus } };
             dbo
                 .collection("msg")
