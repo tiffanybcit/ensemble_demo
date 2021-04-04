@@ -131,15 +131,18 @@ app.get("/readMsg", (req, res) => {
                 .toArray(function (err, result) {
                     let title = [];
                     let body = [];
+                    let collectionID = [];
                     let i;
                     for (i = 0; i < result.length; i++) {
                         title.push(result[i].title);
                         body.push(result[i].msg);
+                        collectionID.push(result[i].ID);
                     }
                     if (err) throw err;
                     res.send({
                         title: title,
                         msg: body,
+                        idCollection: collectionID, 
                         length: i
                     });
 
@@ -446,18 +449,19 @@ app.post("/writeMsg", (req, res) => {
 
 //             dbo
 //                 .collection("msg")
-//                 .quotesCollection.findOneAndUpdate(
-//                     { name: 'Yoda' },
-//                     {
-//                       $set: {
-//                         name: req.body.name,
-//                         quote: req.body.quote
-//                       }
+//                 .findOneAndUpdate({
+//                         ID: 'Yoda'
+//                     }, {
+//                         $set: {
+//                             name: req.body.name,
+//                             quote: req.body.quote
+//                         }
 //                     },
 //                     options
-//                   )
-//                     .then(result => {/* ... */})
-//                     .catch(error => console.error(error));
+//                 )
+//                 .then(result => {
+//                     /* ... */ })
+//                 .catch(error => console.error(error));
 
 //             res.send({
 //                 msg: "success",
@@ -466,7 +470,7 @@ app.post("/writeMsg", (req, res) => {
 //     );
 
 
-    
+
 // })
 const port = process.env.PORT || 8000;
 app.listen(port, () => {
