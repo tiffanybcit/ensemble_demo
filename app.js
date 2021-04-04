@@ -130,8 +130,8 @@ app.get("/readMsg", (req, res) => {
         .toArray(function (err, result) {
           let title = [];
           let body = [];
-
-          for (let i = 0; i < result.length; i++) {
+          let i;
+          for (i = 0; i < result.length; i++) {
             title.push(result[i].title);
             body.push(result[i].msg);
           }
@@ -139,6 +139,7 @@ app.get("/readMsg", (req, res) => {
           res.send({
             title: title,
             msg: body,
+            length: i+1
           });
 
           db.close();
