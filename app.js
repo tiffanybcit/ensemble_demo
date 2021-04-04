@@ -53,29 +53,29 @@ const {
 var cors = require("cors");
 app.use(cors());
 // Add headers
-app.use(function (req, res, next) {
-    // Website you wish to allow to connect
-    res.setHeader("Access-Control-Allow-Origin", "*");
+// app.use(function (req, res, next) {
+//     // Website you wish to allow to connect
+//     res.setHeader("Access-Control-Allow-Origin", "*");
 
-    // Request methods you wish to allow
-    res.setHeader(
-        "Access-Control-Allow-Methods",
-        "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-    );
+//     // Request methods you wish to allow
+//     res.setHeader(
+//         "Access-Control-Allow-Methods",
+//         "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+//     );
 
-    // Request headers you wish to allow
-    res.setHeader(
-        "Access-Control-Allow-Headers",
-        "X-Requested-With,content-type"
-    );
+//     // Request headers you wish to allow
+//     res.setHeader(
+//         "Access-Control-Allow-Headers",
+//         "X-Requested-With,content-type"
+//     );
 
-    // Set to true if you need the website to include cookies in the requests sent
-    // to the API (e.g. in case you use sessions)
-    res.setHeader("Access-Control-Allow-Credentials", true);
+//     // Set to true if you need the website to include cookies in the requests sent
+//     // to the API (e.g. in case you use sessions)
+//     res.setHeader("Access-Control-Allow-Credentials", true);
 
-    // Pass to next layer of middleware
-    next();
-});
+//     // Pass to next layer of middleware
+//     next();
+// });
 
 // ===================
 // EXPRESS TRIGGER
@@ -83,35 +83,11 @@ app.use(function (req, res, next) {
 
 app.get("/", (req, res) => res.sendFile(__dirname + "/views/index.html"));
 
-// app.get('/laborSales', function (req, res) {
-//     let doc = fs.readFileSync('./views/labor_sales.html', "utf8");
-
-//     res.send(doc);
-// });
-
-// app.get('/piegraph', function (req, res) {
-//     let doc = fs.readFileSync('./views/PieChart.html', "utf8");
-
-//     res.send(doc);
-// });
-
-// app.get('/bargraph', function (req, res) {
-//     let doc = fs.readFileSync('./views/BarCharts.html', "utf8");
-
-//     res.send(doc);
-// });
-
-// app.get('/success', function (req, res) {
-//     let doc = fs.readFileSync('./views/submitted.html', "utf8");
-
-//     res.send(doc);
-// });
-
-app.use('/login', (req, res) => {
+app.use("/login", (req, res) => {
     res.send({
-      token: 'qwerty123456'
+        token: "qwerty123456",
     });
-  });
+});
 
 app.get("/readTask", (req, res) => {
     res.setHeader("Content-Type", "text/html");
@@ -145,7 +121,7 @@ app.get("/readTask", (req, res) => {
                         msg: body,
                         idCollection: collectionID,
                         status: statuses,
-                        length: i
+                        length: i,
                     });
 
                     db.close();
@@ -241,7 +217,6 @@ app.get("/readLaborAndSales", (req, res) => {
                 .collection("sales_demo")
                 .find({})
                 .toArray(function (err, result) {
-                    // console.log(result);
                     result2 = result;
 
                     if (err) throw err;
@@ -302,10 +277,9 @@ app.post("/writeLaborCost", (req, res) => {
                     .catch((err) => {
                         console.error(`Fatal error occurred: ${err}`);
                         res.send("Doc error. Not inserted!");
-                        // break;
                     });
             }
-
+            db.close();
             res.send({
                 msg: "success",
             });
@@ -379,7 +353,7 @@ app.post("/writeMonthlySalesData", (req, res) => {
                         res.send("Doc error. Not inserted!");
                     });
             }
-
+            db.close();
             res.send({
                 msg: "success",
             });
@@ -414,7 +388,7 @@ app.post("/writeTask", (req, res) => {
                         title: req.body.msgSubject,
                         msg: req.body.msgBody,
                         ID: req.body.largestID,
-                        status:req.body.status
+                        status: req.body.status,
                     },
                     options
                 )
@@ -422,7 +396,7 @@ app.post("/writeTask", (req, res) => {
                     console.error(`Fatal error occurred: ${err}`);
                     res.send("Doc error. Not inserted!");
                 });
-
+            db.close();
             res.send({
                 msg: "success",
             });
@@ -430,9 +404,8 @@ app.post("/writeTask", (req, res) => {
     );
 });
 
-
-app.put('/updateTask', (req, res) => {
-    console.log(typeof(req.body.selectedID));
+app.put("/updateTask", (req, res) => {
+    console.log(typeof req.body.selectedID);
     console.log(req.body.newStatus);
     res.setHeader("Content-Type", "application/json");
     res.header("Access-Control-Allow-Origin", "*");
@@ -450,28 +423,27 @@ app.put('/updateTask', (req, res) => {
             const options = {
                 ordered: true,
             };
-            var myquery = { ID: parseInt(req.body.selectedID) };
-            var newvalues = { $set: { status: req.body.newStatus } };
+            var myquery = {
+                ID: parseInt(req.body.selectedID)
+            };
+            var newvalues = {
+                $set: {
+                    status: req.body.newStatus
+                }
+            };
             dbo
                 .collection("msg")
-                .updateOne(myquery, newvalues,
-                    options
-                )
-                .then(result => {
-                    /* ... */ })
-                .catch(error => console.error(error));
-
+                .updateOne(myquery, newvalues, options)
+                .catch((error) => console.error(error));
+            db.close();
             res.send({
                 msg: "success",
             });
         }
     );
+});
 
-
-
-})
-
-app.delete('/deleteTask', (req, res) => {
+app.delete("/deleteTask", (req, res) => {
     console.log(req.body);
     res.setHeader("Content-Type", "application/json");
     res.header("Access-Control-Allow-Origin", "*");
@@ -489,15 +461,17 @@ app.delete('/deleteTask', (req, res) => {
             const options = {
                 ordered: true,
             };
-            var msgQuery = { ID: parseInt(req.body.selectedID) };
+            var msgQuery = {
+                ID: parseInt(req.body.selectedID)
+            };
             dbo
-                .collection("msg").deleteOne(msgQuery,
-                    options
-                ).catch((err) => {
+                .collection("msg")
+                .deleteOne(msgQuery, options)
+                .catch((err) => {
                     console.error(`Fatal error occurred: ${err}`);
                     res.send("Doc error. Not inserted!");
                 });
-
+            db.close();
             res.send({
                 msg: "success",
             });
