@@ -491,10 +491,9 @@ app.delete('/deleteMsg', (req, res) => {
             const options = {
                 ordered: true,
             };
+            var msgQuery = { ID: req.body.selectedID };
             dbo
-                .collection("msg").deleteOne({
-                        ID: req.body.selectedID
-                    },
+                .collection("msg").deleteOne(msgQuery,
                     options
                 ).catch((err) => {
                     console.error(`Fatal error occurred: ${err}`);
