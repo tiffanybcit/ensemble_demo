@@ -221,7 +221,7 @@ app.get("/readLaborAndSales", (req, res) => {
 app.post("/writeLaborCost", (req, res) => {
     console.log("req.body" + JSON.stringify(req.body));
 
-    // res.setHeader("Content-Type", "application/json");
+    res.setHeader("Content-Type", "application/json");
     // res.setHeader("Access-Control-Allow-Origin", "*");
     // MongoClient.connect(
     //     mongoURI, {
@@ -270,12 +270,12 @@ app.post("/writeLaborCost", (req, res) => {
     // }
     mongoWriteLabor("labor_demo", req.body)
         .then(
-            res.json({
+            res.send({
                 msg: "success"
             })
         )
         .catch(
-            res.json({
+            res.send({
                 msg: "Doc error. Not inserted!"
             })
         );
@@ -285,7 +285,7 @@ app.post("/writeLaborCost", (req, res) => {
 // UPLOAD SALES DATA API
 // ======================
 app.post("/writeMonthlySalesData", (req, res) => {
-    console.log("req.body" + JSON.stringify(req.body));
+    // console.log("req.body" + JSON.stringify(req.body));
 
     // // function getDept(input) {
     // //     if (input.localeCompare("Uncategorized") == 0) {
@@ -315,7 +315,7 @@ app.post("/writeMonthlySalesData", (req, res) => {
     // //     }
     // //     return null;
     // // }
-    // res.setHeader("Content-Type", "application/json");
+    res.setHeader("Content-Type", "application/json");
     // res.setHeader("Access-Control-Allow-Origin", "*");
     // MongoClient.connect(
     //     mongoURI, {
@@ -358,12 +358,12 @@ app.post("/writeMonthlySalesData", (req, res) => {
   
     mongoWriteSales("sales_demo", req.body)
         .then(
-            res.json({
+            res.send({
                 msg: "success"
             })
         )
         .catch(
-            res.json({
+            res.send({
                 msg: "Doc error. Not inserted!"
             })
         );
