@@ -40,6 +40,8 @@ const {
     mongoRead
 } = require("./app/util/mongoFunctions");
 
+const {getTotal, getDept} = require("./app/util/dataSort");
+
 // ===================
 // FS AND EJS
 // ===================
@@ -96,42 +98,7 @@ app.get("/readTask", (req, res) => {
             length: i,
         });
     }).catch(err => console.log(err))
-    // MongoClient.connect(
-    //     mongoURI, {
-    //         useNewUrlParser: true,
-    //         useUnifiedTopology: true,
-    //     },
-    //     function (err, db) {
-    //         if (err) throw err;
-    //         var dbo = db.db("nemesis_project");
-    //         dbo
-    //             .collection("msg")
-    //             .find({})
-    //             .toArray(function (err, result) {
-    //                 let title = [];
-    //                 let body = [];
-    //                 let collectionID = [];
-    //                 let statuses = [];
-    //                 let i;
-    //                 for (i = 0; i < result.length; i++) {
-    //                     title.push(result[i].title);
-    //                     body.push(result[i].msg);
-    //                     collectionID.push(result[i].ID);
-    //                     statuses.push(result[i].status);
-    //                 }
-    //                 if (err) throw err;
-    //                 res.send({
-    //                     title: title,
-    //                     msg: body,
-    //                     idCollection: collectionID,
-    //                     status: statuses,
-    //                     length: i,
-    //                 });
 
-    //                 db.close();
-    //             });
-    //     }
-    // );
 });
 
 // =====================
@@ -248,20 +215,20 @@ app.get("/readLaborAndSales", (req, res) => {
 app.post("/writeLaborCost", (req, res) => {
     console.log("req.body" + JSON.stringify(req.body));
 
-    function getTotal(input) {
-        let total = 0;
-        total += parseInt(input["Reg. Hourly Pay"]);
-        total += parseInt(input["Reg. Salary Pay"]);
-        total += parseInt(input["Stat Holiday Pay (Hourly)"]);
-        total += parseInt(input["Stat Worked @1.5 (Hourly)"]);
-        total += parseInt(input["Vacation Pay Earned (Accrued)"]);
-        total += parseInt(input["Vacation Pay Earned (Paid)"]);
-        total += parseInt(input["Vacation Pay Taken (Salary)"]);
+    // function getTotal(input) {
+    //     let total = 0;
+    //     total += parseInt(input["Reg. Hourly Pay"]);
+    //     total += parseInt(input["Reg. Salary Pay"]);
+    //     total += parseInt(input["Stat Holiday Pay (Hourly)"]);
+    //     total += parseInt(input["Stat Worked @1.5 (Hourly)"]);
+    //     total += parseInt(input["Vacation Pay Earned (Accrued)"]);
+    //     total += parseInt(input["Vacation Pay Earned (Paid)"]);
+    //     total += parseInt(input["Vacation Pay Taken (Salary)"]);
 
-        return total;
-    }
+    //     return total;
+    // }
     res.setHeader("Content-Type", "application/json");
-    res.setHeader("Access-Control-Allow-Origin", "*");
+    // res.setHeader("Access-Control-Allow-Origin", "*");
     MongoClient.connect(
         mongoURI, {
             useNewUrlParser: true,
@@ -305,34 +272,34 @@ app.post("/writeLaborCost", (req, res) => {
 app.post("/writeMonthlySalesData", (req, res) => {
     console.log("req.body" + JSON.stringify(req.body));
 
-    function getDept(input) {
-        if (input.localeCompare("Uncategorized") == 0) {
-            return "FOH";
-        } else if (input.localeCompare("Batch Brew") == 0) {
-            return "FOH";
-        } else if (input.localeCompare("Dope Coffee") == 0) {
-            return "FOH";
-        } else if (input.localeCompare("Espresso") == 0) {
-            return "FOH";
-        } else if (input.localeCompare("Filter") == 0) {
-            return "FOH";
-        } else if (input.localeCompare("Retail Merchandise") == 0) {
-            return "FOH";
-        } else if (input.localeCompare("Taps (non-alcoholic)") == 0) {
-            return "FOH";
-        } else if (input.localeCompare("Tea") == 0) {
-            return "FOH";
-        } else if (input.localeCompare("Beer ") == 0) {
-            return "FOH";
-        } else if (input.localeCompare("Cocktails") == 0) {
-            return "FOH";
-        } else if (input.localeCompare("Food") == 0) {
-            return "BOH";
-        } else if (input.localeCompare("Pastry") == 0) {
-            return "BOH";
-        }
-        return null;
-    }
+    // function getDept(input) {
+    //     if (input.localeCompare("Uncategorized") == 0) {
+    //         return "FOH";
+    //     } else if (input.localeCompare("Batch Brew") == 0) {
+    //         return "FOH";
+    //     } else if (input.localeCompare("Dope Coffee") == 0) {
+    //         return "FOH";
+    //     } else if (input.localeCompare("Espresso") == 0) {
+    //         return "FOH";
+    //     } else if (input.localeCompare("Filter") == 0) {
+    //         return "FOH";
+    //     } else if (input.localeCompare("Retail Merchandise") == 0) {
+    //         return "FOH";
+    //     } else if (input.localeCompare("Taps (non-alcoholic)") == 0) {
+    //         return "FOH";
+    //     } else if (input.localeCompare("Tea") == 0) {
+    //         return "FOH";
+    //     } else if (input.localeCompare("Beer ") == 0) {
+    //         return "FOH";
+    //     } else if (input.localeCompare("Cocktails") == 0) {
+    //         return "FOH";
+    //     } else if (input.localeCompare("Food") == 0) {
+    //         return "BOH";
+    //     } else if (input.localeCompare("Pastry") == 0) {
+    //         return "BOH";
+    //     }
+    //     return null;
+    // }
     res.setHeader("Content-Type", "application/json");
     res.setHeader("Access-Control-Allow-Origin", "*");
     MongoClient.connect(
