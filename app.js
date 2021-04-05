@@ -258,7 +258,7 @@ app.post("/writeLaborCost", (req, res) => {
             };
             for (let item of req.body.rowobj) {
                 dbo
-                    .collection("labor_sales")
+                    .collection("labor_demo")
                     .insertOne({
                             total: getTotal(item),
                             year: req.body.year,
