@@ -38,6 +38,135 @@ function mongoRead(collectionName, queryConditions) {
     })
 }
 
+/**
+ * MongoDB Write Labor / Sales Report Function
+ * 
+ * @param {string} collectionName
+ * @param {object} queryConditions 
+ */
+function mongoWriteGeneral(collectionName, queryConditions) {
+    return new Promise((resolve, reject) => {
+        MongoClient.connect(
+            mongoURI, {
+                // to allow users to fall back to the old parser if they find a bug in the new parser
+                useNewUrlParser: true,
+                // DeprecationWarning: current Server Discovery and Monitoring engine is deprecated, 
+                //and will be removed in a future version. To use the new Server Discover and Monitoring engine, 
+                //pass option { useUnifiedTopology: true } to the MongoClient constructor.
+                useUnifiedTopology: true
+            },
+            function (err, db) {
+                if (err) throw err;
+                var dbo = db.db("nemesis_project");
+                const options = {
+                    ordered: true,
+                };
+                dbo
+                    .collection(collectionName)
+                    .insertOne(queryConditions,
+                        options,
+                        function (err, result) {
+                            if (err) {
+                                reject(err);
+                            } else {
+                                resolve(result);
+                            }
+                            db.close();
+                        }
+                    )
+            }
+        );
+    })
+}
+
+
+/**
+ * MongoDB Update Task Function
+ * 
+ * @param {string} collectionName
+ * @param {object} query
+ * @param {object} newValues 
+ */
+function mongoUpdateTask(collectionName, query, newValues) {
+    return new Promise((resolve, reject) => {
+        MongoClient.connect(
+            mongoURI, {
+                // to allow users to fall back to the old parser if they find a bug in the new parser
+                useNewUrlParser: true,
+                // DeprecationWarning: current Server Discovery and Monitoring engine is deprecated, 
+                //and will be removed in a future version. To use the new Server Discover and Monitoring engine, 
+                //pass option { useUnifiedTopology: true } to the MongoClient constructor.
+                useUnifiedTopology: true
+            },
+            function (err, db) {
+                if (err) throw err;
+                var dbo = db.db("nemesis_project");
+                const options = {
+                    ordered: true,
+                };
+
+                dbo
+                    .collection(collectionName)
+                    .updateOne(query, newValues, options,
+                        function (err, result) {
+                            if (err) {
+                                reject(err);
+                            } else {
+                                resolve(result);
+                            }
+                            db.close();
+                        })
+            }
+        );
+    })
+}
+
+/**
+ * MongoDB Update Task Function
+ * 
+ * @param {string} collectionName
+ * @param {object} query
+ * @param {object} newValues 
+ */
+function mongoDeleteTask(collectionName, taskQuery) {
+    return new Promise((resolve, reject) => {
+        MongoClient.connect(
+            mongoURI, {
+                // to allow users to fall back to the old parser if they find a bug in the new parser
+                useNewUrlParser: true,
+                // DeprecationWarning: current Server Discovery and Monitoring engine is deprecated, 
+                //and will be removed in a future version. To use the new Server Discover and Monitoring engine, 
+                //pass option { useUnifiedTopology: true } to the MongoClient constructor.
+                useUnifiedTopology: true
+            },
+            function (err, db) {
+                if (err) throw err;
+                var dbo = db.db("nemesis_project");
+                const options = {
+                    ordered: true,
+                };
+
+                dbo
+                    .collection(collectionName)
+                    .deleteOne(taskQuery, options,
+                        function (err, result) {
+                            if (err) {
+                                reject(err);
+                            } else {
+                                resolve(result);
+                            }
+                            db.close();
+                        })
+            }
+        );
+    })
+}
+
+
+
 module.exports = {
     mongoRead,
+    mongoWriteGeneral,
+    mongoUpdateTask,
+    mongoDeleteTask
 }
