@@ -20,6 +20,6 @@ to start the app.
 
 4. Open the browser and type:
 
-### http://localhost:3000/
+### http://localhost:8000/
 
 5. You are all set!
