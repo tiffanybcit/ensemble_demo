@@ -268,7 +268,7 @@ app.post("/writeLaborCost", (req, res) => {
     //     dept: item["Dept Name"]
     // };
     // }
-    mongoWriteLabor("labor_demo")
+    mongoWriteLabor("labor_demo", req.body.rowobj)
         .then(
             res.json({
                 msg: "success"
@@ -356,7 +356,7 @@ app.post("/writeMonthlySalesData", (req, res) => {
     //     }
     // );
   
-    mongoWriteSales("sales_demo")
+    mongoWriteSales("sales_demo", req.body.rowobj)
         .then(
             res.json({
                 msg: "success"

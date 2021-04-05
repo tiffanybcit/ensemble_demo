@@ -85,8 +85,9 @@ function mongoWriteGeneral(collectionName, queryConditions) {
  * MongoDB Write Labor Report Function
  * 
  * @param {string} collectionName
+ * @param {object} dataBlock
  */
-function mongoWriteLabor(collectionName) {
+function mongoWriteLabor(collectionName, dataBlock) {
     return new Promise((resolve, reject) => {
         MongoClient.connect(
             mongoURI, {
@@ -104,7 +105,7 @@ function mongoWriteLabor(collectionName) {
                     ordered: true,
                 };
 
-                for (let item of req.body.rowobj) {
+                for (let item of dataBlock) {
                     let queryConditions = {
                         total: getTotal(item),
                         year: req.body.year,
@@ -134,8 +135,9 @@ function mongoWriteLabor(collectionName) {
  * MongoDB Write Sales Report Function
  * 
  * @param {string} collectionName
+ * @param {object} dataBlock
  */
-function mongoWriteSales(collectionName) {
+function mongoWriteSales(collectionName, dataBlock) {
     return new Promise((resolve, reject) => {
         MongoClient.connect(
             mongoURI, {
@@ -153,7 +155,7 @@ function mongoWriteSales(collectionName) {
                     ordered: true,
                 };
 
-                for (let item of req.body.rowobj) {
+                for (let item of dataBlock) {
                     let queryConditions = {
                         shop: req.body.store,
                         year: req.body.year,
