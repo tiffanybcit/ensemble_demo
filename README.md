@@ -10,13 +10,13 @@ Before you start, make sure you have node installed.
 to install all required packages.
 
 3. Run:
-4. 
+
 ### node app.js
 
 to start the app.
 
 4. Open the browser and type:
-5. 
+
 ### http://localhost:3000/
 
-6. You are all set!
+5. You are all set!
