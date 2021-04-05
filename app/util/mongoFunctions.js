@@ -1,6 +1,8 @@
 const {
     mongoURI
 } = require("./mongoConnections");
+
+const {getTotal, getDept} = require("./dataSort");
 const MongoClient = require("mongodb").MongoClient;
 /**
  * MongoDB Read Function
