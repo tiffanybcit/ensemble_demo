@@ -36,6 +36,9 @@ app.use(express.json());
 const MongoClient = require("mongodb").MongoClient;
 const mongoURI =
     "mongodb+srv://admin:qwerty123456@nemesistest.k4jez.mongodb.net/test";
+const {
+    mongoRead
+} = require("./app/util/mongoFunctions");
 
 // ===================
 // FS AND EJS
@@ -73,42 +76,62 @@ app.use("/login", (req, res) => {
 app.get("/readTask", (req, res) => {
     res.setHeader("Content-Type", "text/html");
     // res.setHeader("Access-Control-Allow-Origin", "*");
-    MongoClient.connect(
-        mongoURI, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        },
-        function (err, db) {
-            if (err) throw err;
-            var dbo = db.db("nemesis_project");
-            dbo
-                .collection("msg")
-                .find({})
-                .toArray(function (err, result) {
-                    let title = [];
-                    let body = [];
-                    let collectionID = [];
-                    let statuses = [];
-                    let i;
-                    for (i = 0; i < result.length; i++) {
-                        title.push(result[i].title);
-                        body.push(result[i].msg);
-                        collectionID.push(result[i].ID);
-                        statuses.push(result[i].status);
-                    }
-                    if (err) throw err;
-                    res.send({
-                        title: title,
-                        msg: body,
-                        idCollection: collectionID,
-                        status: statuses,
-                        length: i,
-                    });
-
-                    db.close();
-                });
+    mongoRead("msg", {}).then((result) => {
+        let title = [];
+        let body = [];
+        let collectionID = [];
+        let statuses = [];
+        let i;
+        for (i = 0; i < result.length; i++) {
+            title.push(result[i].title);
+            body.push(result[i].msg);
+            collectionID.push(result[i].ID);
+            statuses.push(result[i].status);
         }
-    );
+        res.send({
+            title: title,
+            msg: body,
+            idCollection: collectionID,
+            status: statuses,
+            length: i,
+        });
+    }).catch(err => console.log(err))
+    // MongoClient.connect(
+    //     mongoURI, {
+    //         useNewUrlParser: true,
+    //         useUnifiedTopology: true,
+    //     },
+    //     function (err, db) {
+    //         if (err) throw err;
+    //         var dbo = db.db("nemesis_project");
+    //         dbo
+    //             .collection("msg")
+    //             .find({})
+    //             .toArray(function (err, result) {
+    //                 let title = [];
+    //                 let body = [];
+    //                 let collectionID = [];
+    //                 let statuses = [];
+    //                 let i;
+    //                 for (i = 0; i < result.length; i++) {
+    //                     title.push(result[i].title);
+    //                     body.push(result[i].msg);
+    //                     collectionID.push(result[i].ID);
+    //                     statuses.push(result[i].status);
+    //                 }
+    //                 if (err) throw err;
+    //                 res.send({
+    //                     title: title,
+    //                     msg: body,
+    //                     idCollection: collectionID,
+    //                     status: statuses,
+    //                     length: i,
+    //                 });
+
+    //                 db.close();
+    //             });
+    //     }
+    // );
 });
 
 // =====================
@@ -268,7 +291,7 @@ app.post("/writeLaborCost", (req, res) => {
                         res.send("Doc error. Not inserted!");
                     });
             }
-            
+
             res.send({
                 msg: "success",
             });
@@ -344,7 +367,7 @@ app.post("/writeMonthlySalesData", (req, res) => {
                         res.send("Doc error. Not inserted!");
                     });
             }
-            
+
             res.send({
                 msg: "success"
             });
@@ -389,7 +412,7 @@ app.post("/writeTask", (req, res) => {
                     console.error(`Fatal error occurred: ${err}`);
                     res.send("Doc error. Not inserted!");
                 });
-            
+
             res.send({
                 msg: "success",
             });
@@ -431,7 +454,7 @@ app.put("/updateTask", (req, res) => {
                 .collection("msg")
                 .updateOne(myquery, newvalues, options)
                 .catch((error) => console.error(error));
-            
+
             res.send({
                 msg: "success",
             });
@@ -470,7 +493,7 @@ app.delete("/deleteTask", (req, res) => {
                     console.error(`Fatal error occurred: ${err}`);
                     res.send("Doc error. Not inserted!");
                 });
-            
+
             res.send({
                 msg: "success",
             });
