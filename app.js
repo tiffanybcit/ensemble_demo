@@ -47,6 +47,8 @@ app.use(
 const {
     mongoRead,
     mongoWriteGeneral,
+    mongoWriteLabor,
+    mongoWriteSales,
     mongoUpdateTask,
     mongoDeleteTask
 } = require("./app/util/mongoFunctions");
@@ -258,13 +260,15 @@ app.post("/writeLaborCost", (req, res) => {
     //         });
     //     }
     // );
-    let tempObj = {
-        total: getTotal(item),
-        year: req.body.year,
-        month: req.body.month,
-        dept: item["Dept Name"]
-    };
-    mongoWriteGeneral("labor_demo", tempObj)
+    // for (let item of req.body.rowobj) {
+    // let tempObj = {
+    //     total: getTotal(item),
+    //     year: req.body.year,
+    //     month: req.body.month,
+    //     dept: item["Dept Name"]
+    // };
+    // }
+    mongoWriteLabor("labor_demo")
         .then(
             res.json({
                 msg: "success"
@@ -351,16 +355,8 @@ app.post("/writeMonthlySalesData", (req, res) => {
     //         });
     //     }
     // );
-    let tempObj = {
-        shop: req.body.store,
-        year: req.body.year,
-        month: req.body.month,
-        dept: getDept(item.Category),
-        category: item.Category,
-        net: item["Net Sales"],
-        gross: item["Gross Sales"]
-    };
-    mongoWriteGeneral("sales_demo", tempObj)
+  
+    mongoWriteSales("sales_demo")
         .then(
             res.json({
                 msg: "success"

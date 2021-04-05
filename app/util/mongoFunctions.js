@@ -61,6 +61,7 @@ function mongoWriteGeneral(collectionName, queryConditions) {
                 const options = {
                     ordered: true,
                 };
+
                 dbo
                     .collection(collectionName)
                     .insertOne(queryConditions,
@@ -74,6 +75,108 @@ function mongoWriteGeneral(collectionName, queryConditions) {
                             db.close();
                         }
                     )
+
+            }
+        );
+    })
+}
+
+/**
+ * MongoDB Write Labor Report Function
+ * 
+ * @param {string} collectionName
+ */
+function mongoWriteLabor(collectionName) {
+    return new Promise((resolve, reject) => {
+        MongoClient.connect(
+            mongoURI, {
+                // to allow users to fall back to the old parser if they find a bug in the new parser
+                useNewUrlParser: true,
+                // DeprecationWarning: current Server Discovery and Monitoring engine is deprecated, 
+                //and will be removed in a future version. To use the new Server Discover and Monitoring engine, 
+                //pass option { useUnifiedTopology: true } to the MongoClient constructor.
+                useUnifiedTopology: true
+            },
+            function (err, db) {
+                if (err) throw err;
+                var dbo = db.db("nemesis_project");
+                const options = {
+                    ordered: true,
+                };
+
+                for (let item of req.body.rowobj) {
+                    let queryConditions = {
+                        total: getTotal(item),
+                        year: req.body.year,
+                        month: req.body.month,
+                        dept: item["Dept Name"]
+                    };
+                    dbo
+                        .collection(collectionName)
+                        .insertOne(queryConditions,
+                            options,
+                            function (err, result) {
+                                if (err) {
+                                    reject(err);
+                                } else {
+                                    resolve(result);
+                                }
+                            }
+                        )
+                }
+
+            }
+        );
+    })
+}
+
+/**
+ * MongoDB Write Sales Report Function
+ * 
+ * @param {string} collectionName
+ */
+function mongoWriteSales(collectionName) {
+    return new Promise((resolve, reject) => {
+        MongoClient.connect(
+            mongoURI, {
+                // to allow users to fall back to the old parser if they find a bug in the new parser
+                useNewUrlParser: true,
+                // DeprecationWarning: current Server Discovery and Monitoring engine is deprecated, 
+                //and will be removed in a future version. To use the new Server Discover and Monitoring engine, 
+                //pass option { useUnifiedTopology: true } to the MongoClient constructor.
+                useUnifiedTopology: true
+            },
+            function (err, db) {
+                if (err) throw err;
+                var dbo = db.db("nemesis_project");
+                const options = {
+                    ordered: true,
+                };
+
+                for (let item of req.body.rowobj) {
+                    let queryConditions = {
+                        shop: req.body.store,
+                        year: req.body.year,
+                        month: req.body.month,
+                        dept: getDept(item.Category),
+                        category: item.Category,
+                        net: item["Net Sales"],
+                        gross: item["Gross Sales"]
+                    };
+                    dbo
+                        .collection(collectionName)
+                        .insertOne(queryConditions,
+                            options,
+                            function (err, result) {
+                                if (err) {
+                                    reject(err);
+                                } else {
+                                    resolve(result);
+                                }
+                            }
+                        )
+                }
+
             }
         );
     })
@@ -167,6 +270,8 @@ function mongoDeleteTask(collectionName, taskQuery) {
 module.exports = {
     mongoRead,
     mongoWriteGeneral,
+    mongoWriteLabor,
+    mongoWriteSales,
     mongoUpdateTask,
     mongoDeleteTask
 }
