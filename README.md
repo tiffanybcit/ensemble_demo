@@ -1,5 +1,8 @@
 # ENSEMBLE DEMO BACKEND SERVER CODE
 Used Heroku, nodejs, express, ejs, AJAX, MongoDB
+I have already deployed the backend at https://ensemble-tiffany-demo.herokuapp.com/.
+If you want to run on local machine... please do the following.
+
 Before you start, make sure you have node installed. 
 
 1. Git clone the project, then locate to root directory.
