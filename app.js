@@ -272,10 +272,10 @@ app.post("/writeLaborCost", (req, res) => {
                         res.send("Doc error. Not inserted!");
                     });
             }
-            db.close();
+            
             res.send({
                 msg: "success",
-            });
+            }).then(db.close());
         }
     );
 });
@@ -346,9 +346,9 @@ app.post("/writeMonthlySalesData", (req, res) => {
                     .catch((err) => {
                         console.error(`Fatal error occurred: ${err}`);
                         res.send("Doc error. Not inserted!");
-                    });
+                    }).then(db.close());
             }
-            db.close();
+            
             res.send({
                 msg: "success",
             });
@@ -392,8 +392,8 @@ app.post("/writeTask", (req, res) => {
                 .catch((err) => {
                     console.error(`Fatal error occurred: ${err}`);
                     res.send("Doc error. Not inserted!");
-                });
-            db.close();
+                }).then(db.close());
+            
             res.send({
                 msg: "success",
             });
@@ -434,8 +434,8 @@ app.put("/updateTask", (req, res) => {
             dbo
                 .collection("msg")
                 .updateOne(myquery, newvalues, options)
-                .catch((error) => console.error(error));
-            db.close();
+                .catch((error) => console.error(error)).then(db.close());
+            
             res.send({
                 msg: "success",
             });
@@ -473,8 +473,8 @@ app.delete("/deleteTask", (req, res) => {
                 .catch((err) => {
                     console.error(`Fatal error occurred: ${err}`);
                     res.send("Doc error. Not inserted!");
-                });
-            db.close();
+                }).then(db.close());
+            
             res.send({
                 msg: "success",
             });
