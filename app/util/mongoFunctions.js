@@ -105,11 +105,11 @@ function mongoWriteLabor(collectionName, dataBlock) {
                     ordered: true,
                 };
 
-                for (let item of dataBlock) {
+                for (let item of dataBlock.rowobj) {
                     let queryConditions = {
                         total: getTotal(item),
-                        year: req.body.year,
-                        month: req.body.month,
+                        year: dataBlock.year,
+                        month: dataBlock.month,
                         dept: item["Dept Name"]
                     };
                     dbo
@@ -155,11 +155,11 @@ function mongoWriteSales(collectionName, dataBlock) {
                     ordered: true,
                 };
 
-                for (let item of dataBlock) {
+                for (let item of dataBlock.rowobj) {
                     let queryConditions = {
-                        shop: req.body.store,
-                        year: req.body.year,
-                        month: req.body.month,
+                        shop: dataBlock.store,
+                        year: dataBlock.year,
+                        month: dataBlock.month,
                         dept: getDept(item.Category),
                         category: item.Category,
                         net: item["Net Sales"],
