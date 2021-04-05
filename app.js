@@ -53,10 +53,6 @@ app.use(cors());
 
 
 // ===================
-// EXPRESS TRIGGER
-// ===================
-
-// ===================
 // RENDERS PAGE
 // ===================
 app.get("/", (req, res) => res.sendFile(__dirname + "/views/index.html"));
@@ -76,7 +72,7 @@ app.use("/login", (req, res) => {
 // ===================
 app.get("/readTask", (req, res) => {
     res.setHeader("Content-Type", "text/html");
-    res.setHeader("Access-Control-Allow-Origin", "*");
+    // res.setHeader("Access-Control-Allow-Origin", "*");
     MongoClient.connect(
         mongoURI, {
             useNewUrlParser: true,
@@ -350,7 +346,7 @@ app.post("/writeMonthlySalesData", (req, res) => {
             }
             
             res.send({
-                msg: "success",
+                msg: "success"
             });
         }
     );
