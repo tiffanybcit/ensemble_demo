@@ -195,7 +195,7 @@ let result1;
 let result2;
 
 app.get("/readLaborAndSales", (req, res) => {
-    mongoRead("sales_demo", {})
+    mongoRead("labor_demo", {})
         .then((result) => {
             result1 = result;
             mongoRead("sales_demo", {})
