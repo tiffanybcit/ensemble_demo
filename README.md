@@ -1,4 +1,4 @@
-# Backend to a data analytics project: [clickme](https://github.com/tiffanybcit/react_project_demo_frontend)
+# Backend to a data analytics project: [clickme for frontend](https://github.com/tiffanybcit/react_project_demo_frontend)
 
 # DEMO BACKEND SERVER CODE
 Used Heroku, nodejs, express, ejs, AJAX, MongoDB
